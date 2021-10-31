@@ -52,6 +52,10 @@
     height: 100%;
     cursor: pointer
 }
+.selecionada{
+	box-shadow: 5px 5px 5px green;  
+    background: white;
+}
 
 @keyframes animate {
     0% {
@@ -145,6 +149,11 @@
 
 .norm {
   filter: blur(1px);
+}
+
+.modal-lg, .modal-content{
+	max-width: 98%;
+	margin: auto;
 }
 	</style>
 
@@ -275,6 +284,7 @@
 										</div>
 		
 									</div>
+			
 
 								
 								</div>
@@ -427,9 +437,10 @@
 	<script src="js/responsive-tabs.js"></script>
     <!-- ALL PLUGINS -->
     <script src="js/custom.js"></script>
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <!-- Menu Toggle Script -->
     <script>
+			var AGENDA = [];
     (function($) {
         "use strict";
         $("#menu-toggle").click(function(e) {
@@ -470,7 +481,7 @@
 			var day = now.add(index, "days")
 			console.log(index+" index "+day.day() +" -> "+day.format("YYYY-MM-DD"))
 			if(day.day() != 0){
-				var HTML  = '<button style="cursor: pointer; margin-left: 2%;line-height: 1.0; margin-top: 2%" class="btn-sm btn-danger" data="'+day.format("YYYY-MM-DD")+'">'+getDay(day.day())+'<br>'+day.format("DD/MM")+'</button>';
+				var HTML  = '<button style="cursor: pointer; margin-left: 2%;line-height: 1.0; margin-top: 2%; border-radius: 20px" class="btn-sm btn-danger" data="'+day.format("YYYY-MM-DD")+'">'+getDay(day.day())+'<br>'+day.format("DD/MM")+'</button>';
 				$("#sugestoes").append(HTML)
 			}
 			
@@ -495,17 +506,98 @@
 			$("#body").fadeIn()
 			$("#body").addClass("body")
 			$("#appointment").css("filter", "blur(10px)")
+		
+			$.ajax({
+				type: 'GET',
+				url: 'https://printmer.com.br/agenda',
+				data: "",
+				success: function (data) {
+					AGENDA = data
+				},
+				error: function (data) {
+					console.log(data)
+				},
+				complete: function(){
+					// ao final da requisição...
+				}
+			});
+
+
 
 			setTimeout(() => {
 				$("#page-content-wrapper").fadeIn();
 				$("#body").hide()
 				$("#body").removeClass("body")
-				$("#appointment").css("filter", "none")
+				$("#appointment").css("filter", "none");
+				var html = ''
+
+				function getHorario(dia,horario){
+					var hours = []
+					if(AGENDA.length > 0){
+						for(const k in AGENDA){
+								if(AGENDA[k].horario == horario && AGENDA[k].data == dia){
+									hours.push(AGENDA[k])
+								}
+						}
+							if(hours.length <= 1){
+								return true;
+							}else{
+								return false;
+							}
+					}else{
+						return true
+					}
+					
+				}
+				
+				var data = $("#data").val()
+				var incremento = 30
+				for(let a = 0; a < 24; a++){
+					var quando = moment(data + " 08:00:00")
+					console.log(data)
+					console.log(quando.format("HH:mm"))
+					quando.add(incremento, "minutes")
+					incremento += 30
+					if(getHorario(data, quando.format("HH:mm"))){
+						html += '<ol class="breadcrumb horaEscolhida" style="margin: 1%; max-width: 45%; padding:2%;cursor:pointer"> <li style="color: green"> <i class="fas fa-thumbs-up"></i> <a > '+quando.format("HH:mm")+'</a></ol>'
+						//html+= '<button style="margin: 1%; min-width: 21%" class="btn-sm btn-success horarius">'+quando.format("HH:mm")+'</button>';
+					}else{
+						html += '<ol class="breadcrumb bg-dark horaEscolhida horaInvalida" style="margin: 1%; max-width: 45%; padding:2%;cursor:pointer"> <li  style="color: red"> <i class="fas fa-thumbs-down"></i> <a >'+quando.format("HH:mm")+'</a></ol>'
+						//html+= '<button class="btn-sm btn-dark horarius">'+quando.format("HH:mm")+'</button>';
+					}
+				}
+
+				bootbox.confirm({
+					message: "<span style='margin: auto'><i style='color:green' class='fas fa-thumbs-up'></i> Livre | <i style='color:red' class='fas fa-thumbs-down'></i> Ocupado</span><hr><br><div class='col-md-12'><div class='row'>"+html+"</div>",
+					title: "Temos vaga no dia "+quando.format("DD/MM")+", escolha o seu horário!",
+					onShow: function(){
+						$(".horaEscolhida").click(function(){
+							$(".horaEscolhida").css("filter","blur(5px)")
+							$(".horaEscolhida").removeClass("selecionada");
+							$(this).css("filter","none");
+							$(this).addClass("selecionada");
+							//$(this).append("<button class='btn-sm btn-danger closeWindow'>Cancelar</button>")
+						})
+
+						/*
+						$(".closeWindow").click(function(){
+							$(this).parent().removeClass("selecionada")
+						})
+						*/
+
+					},
+					callback: function (result) {
+						console.log(result);
+					}
+				});
+
 			}, 10000);
 
 		})
 
 	}, 1000);
+
+	
     </script>
 
 </body>
