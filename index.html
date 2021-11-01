@@ -549,9 +549,9 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 					var hours = []
 					if(AGENDA.length > 0){
 						for(const k in AGENDA){
-							console.log(moment(AGENDA[k].horario).format("HH:mm:00") +" e "+ moment(AGENDA[k].data)  )
+							console.log(AGENDA[k].horario +" e "+ moment(AGENDA[k].data).format("YYYY-MM-DD")  )
 							console.log(  horario +"&&"+ dia)
-								if(moment(AGENDA[k].horario).format("HH:mm:00") == horario && moment(AGENDA[k].data).format("YYYY-MM-DD") == dia){
+								if(AGENDA[k].horario == horario && moment(AGENDA[k].data).format("YYYY-MM-DD") == dia){
 									hours.push(AGENDA[k])
 								}
 						}
