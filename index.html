@@ -579,13 +579,28 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 
 		$("#data").change(function(){
 			//$("#data").val($(this).attr("data"));
-			$("#pesquisar").css("font-size","0.6rem")
-			$("#pesquisar").css("padding","2%")
-			$("#pesquisar").addClass("pulse")
+
+			if(moment($(this).val()).day() == 0){
+
+			}else{
+				$("#pesquisar").css("font-size","0.6rem")
+				$("#pesquisar").css("padding","2%")
+				$("#pesquisar").addClass("pulse")
+			}
+			
 		})
 
 		$("#pesquisar").click(function(){
-			$("#page-content-wrapper").hide();
+			if(moment($("#data").val()).day() == 0){
+				                    bootbox.confirm({
+										message: "<i style='color: red; font-size: 2rem' class='fas fa-bell'></i> Desculpe, não trabalhamos aos domingos!",
+										title: "TEMOS UM PROBLEMINHA!",
+										callback: function (result) {
+											
+										}
+									});
+			}else{
+				$("#page-content-wrapper").hide();
 			$("#body").fadeIn()
 			$("#body").addClass("body")
 			$("#appointment").css("filter", "blur(10px)")
@@ -751,6 +766,8 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 				});
 
 			}, 10000);
+			}
+			
 
 		})
 
