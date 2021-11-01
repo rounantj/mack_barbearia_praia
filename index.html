@@ -56,6 +56,11 @@
 	box-shadow: 5px 5px 5px green;  
     background: white;
 }
+.grande{
+	font-size: 2rem;
+    margin: auto !important;
+}
+
 
 @keyframes animate {
     0% {
@@ -155,6 +160,10 @@
 	max-width: 98%;
 	margin: auto;
 }
+
+p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
+	font-family: 'Clarendon' !important;
+}
 	</style>
 
     <!--[if lt IE 9]>
@@ -200,10 +209,10 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbars-rs-food">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
-						<li class="nav-item"><a class="nav-link" href="services.html">Serviços</a></li>					
-						<li class="nav-item"><a class="nav-link" href="appointment.html">Agendamento</a></li>
-						<li class="nav-item"><a class="nav-link" href="contact.html">Contato</a></li>
+						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Serviços</a></li>					
+						<li class="nav-item"><a class="nav-link" href="index.html">Agendamento</a></li>
+						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Contato</a></li>
 					</ul>
 				</div>
 			</div>
@@ -341,7 +350,7 @@
 			</div><!-- end container -->
 		</div><!-- end section -->
 
-		<div id="testimonials" class="parallax section db parallax-inner-bg">
+		<div style="display: none;" id="testimonials" class="parallax section db parallax-inner-bg">
 			<div class="container">
 				<div class="section-title row text-center">
 					<div class="col-md-8 offset-md-2">
@@ -439,7 +448,10 @@
     <script src="js/custom.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     <!-- Menu Toggle Script -->
+    <script src="js/mask.js"></script>
+
     <script>
+		
 			var AGENDA = [];
     (function($) {
         "use strict";
@@ -566,16 +578,42 @@
 						//html+= '<button class="btn-sm btn-dark horarius">'+quando.format("HH:mm")+'</button>';
 					}
 				}
-
+				var conteudo = '<div id="conteudo" style="display: none" class="col-md-12"> <h4><i style="color: green; font-size: 2rem" class="fas fa-laugh-wink"></i> Ótima escolha!</h4><h5>Informe agora seu NOME e TELEFONE:</h5><label>Nome:</label><input class="form-control" placeholder="Nome..." id="nome" type="text"><hr><label>Telefone: </label><input class="form-control telefone" placeholder="(27) 999999999" id="telefone"  type="numtextber"> </div>'
+				var hora =""
 				bootbox.confirm({
-					message: "<span style='margin: auto'><i style='color:green' class='fas fa-thumbs-up'></i> Livre | <i style='color:red' class='fas fa-thumbs-down'></i> Ocupado</span><hr><br><div class='col-md-12'><div class='row'>"+html+"</div>",
+					message: "<span id='informacao' style='margin: auto'><i style='color:green' class='fas fa-thumbs-up'></i> Livre | <i style='color:red' class='fas fa-thumbs-down'></i> Ocupado</span><hr><br><div class='col-md-12'><div class='row'>"+html+"</div>"+conteudo,
 					title: "Temos vaga no dia "+quando.format("DD/MM")+", escolha o seu horário!",
 					onShow: function(){
 						$(".horaEscolhida").click(function(){
 							$(".horaEscolhida").css("filter","blur(5px)")
+							$(".horaEscolhida").fadeOut()
 							$(".horaEscolhida").removeClass("selecionada");
 							$(this).css("filter","none");
+							$("#conteudo").css("margin-top","10%");
+							$(this).fadeIn()
+							hora = $(this).text().trim()
+							$(this).addClass("grande")
 							$(this).addClass("selecionada");
+							var thisHtml = $(this).html();
+							$("#informacao").fadeOut();
+							$("#conteudo").fadeIn();
+
+							jQuery("input.telefone")
+								.mask("(99) 9999-9999?9")
+								.focusout(function (event) {  
+									var target, phone, element;  
+									target = (event.currentTarget) ? event.currentTarget : event.srcElement;  
+									phone = target.value.replace(/\D/g, '');
+									element = $(target);  
+									element.unmask();  
+									if(phone.length > 10) {  
+										element.mask("(99) 99999-999?9");  
+									} else {  
+										element.mask("(99) 9999-9999?9");  
+									}  
+								});
+					
+							
 							//$(this).append("<button class='btn-sm btn-danger closeWindow'>Cancelar</button>")
 						})
 
@@ -587,7 +625,45 @@
 
 					},
 					callback: function (result) {
-						console.log(result);
+						if(result){
+							if($("#nome").val() == ""){$("#nome").css("border","2px solid red")}else{$("#nome").css("border","2px solid green")}
+							if($("#telefone").val() == ""){$("#telefone").css("border","2px solid red")}else{$("#telefone").css("border","2px solid green")}
+							if($("#nome").val() != "" && $("#telefone").val() != ""){
+								var dados = [{
+									"nome":$("#nome").val(),
+									"telefone":$("#telefone").val(),
+									"filial":"barra",
+									"servico":"corte",
+									"data":quando.format("YYYY-MM-DD"),
+									"horario":hora
+								}]
+
+								console.log(dados)
+								$.ajax({
+									type: 'POST',
+									url: 'https://printmer.com.br/insertAgenda',
+									data: {dados},
+									success: function (data) {
+										console.log(data)
+									},
+									error: function (data) {
+										console.log(data)
+									},
+									complete: function(){
+										// ao final da requisição...
+									}
+								});
+							}else{
+								bootbox.confirm({
+										message: "<i style='color: red; font-size: 2rem' class='fas fa-bell'></i> Informe seu 'NOME' e 'TELEFONE'",
+										title: "TEMOS UM PROBLEMINHA!",
+										callback: function (result) {
+											
+										}
+									});
+									return false
+							}
+						}
 					}
 				});
 
