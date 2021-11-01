@@ -727,8 +727,8 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 							if($("#telefone").val() == ""){$("#telefone").css("border","2px solid red")}else{$("#telefone").css("border","2px solid green")}
 							
 							if($("#nome").val() != "" && $("#telefone").val() != ""){
-								var contatos = " "+$("#telefone").val()+";mackbarbearia@printmer.com.br"
-								var conteudoEmail = "<h4>Olá "+$("#nome").val()+"!<br>Obrigado pelo seu agendamento, confira os detalhes:<br>Dia: <b>"+quando.format("DD/MM/YYYY")+"</b><br>Hora: <b>"+hora+"</b><br><br><br><hr>Nos vemos lá!"
+								var contatos = " "+$("#email").val()+";mackbarbearia@printmer.com.br"
+								var conteudoEmail = "<h4>Olá "+$("#nome").val()+"!<br>Obrigado pelo seu agendamento, confira os detalhes:<br>Dia: <b>"+quando.format("DD/MM/YYYY")+"</b><br>Hora: <b>"+hora+" hrs</b><br><br><br><hr>Nos vemos lá!"
 								contatos = contatos.replace(" ;","")
 								var dados = [{
 									"nome":$("#nome").val(),
@@ -747,9 +747,11 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									url: 'https://printmer.com.br/insertAgenda',
 									data: {dados},
 									success: function (data) {
+										console.log(data)
 										finaliza();
 									},
 									error: function (data) {
+										console.log(data)
 										 location.reload()
 									},
 									complete: function(){
