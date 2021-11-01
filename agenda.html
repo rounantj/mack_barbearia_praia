@@ -624,18 +624,30 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 					}
 				
 					$("#data").change(function(){
-						load()
-						$(".line").removeClass("bg-dark text-warning")
-						$(".line").each(function(){
-							var horario = $(this).find(".horario").text()+":00"
-							var dia = $("#data").val()
-							if(!getHorario(dia, horario)){
-								$(this).addClass("bg-dark text-warning")
-								$(this).css("color","yellow")													
-									$(this).css("font-weight","bold")										
-									$(this).css("background","#343a40") 
-							}
-						})
+						if(moment($("#data").val()).day() == 0){
+				                    bootbox.confirm({
+										message: "<i style='color: red; font-size: 2rem' class='fas fa-bell'></i> Desculpe, não trabalhamos aos domingos!",
+										title: "TEMOS UM PROBLEMINHA!",
+										callback: function (result) {
+											
+										}
+									});
+			            }else{
+							load()
+							$(".line").removeClass("bg-dark text-warning")
+							$(".line").each(function(){
+								var horario = $(this).find(".horario").text()+":00"
+								var dia = $("#data").val()
+								if(!getHorario(dia, horario)){
+									$(this).addClass("bg-dark text-warning")
+									$(this).css("color","yellow")													
+										$(this).css("font-weight","bold")										
+										$(this).css("background","#343a40") 
+								}
+							})
+
+						}
+						
 					})
 					$(".line").each(function(){
 						$(".line").removeClass("bg-dark text-warning")
