@@ -165,6 +165,60 @@
 p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 	font-family: 'Clarendon' !important;
 }
+
+.bodyFim { font: 400 1em/1.5 "Neuton"; background: #090d00; color: rgba(255,255,255,.98); text-align: center; margin: 0 }
+
+.pFim {
+	text-transform: uppercase;
+	letter-spacing: .5em;
+	 
+	border: 4px double rgba(17, 17, 17, 1);
+	border-width: 4px 0;
+	 
+	position: absolute;
+
+	max-width: 100%;
+    margin: 25% auto;
+
+	max-width: 100%;
+	margin: 0 0 0 -20em;
+}
+  .span {
+
+  	font: 700 4em/1 "Oswald", sans-serif;
+  	letter-spacing: 0;
+	  max-width: 100%;
+  	padding: .25em 0 .325em;
+	  display: block;
+	  margin: 0 auto;
+  	text-shadow: 0 0 80px rgba(255,255,255,.5);
+
+/* Clip Background Image */
+
+	 background: url(https://i.ibb.co/RDTnNrT/animated-text-fill.png) repeat-y;
+	
+	  -webkit-background-clip: text;
+	  background-clip: text;
+
+/* Animate Background Image */
+
+	  -webkit-text-fill-color: transparent;
+	  -webkit-animation: aitf 80s linear infinite;
+
+/* Activate hardware acceleration for smoother animations */
+
+	  -webkit-transform: translate3d(0,0,0);
+	  -webkit-backface-visibility: hidden;
+
+  }
+
+
+/* Animate Background Image */
+
+@-webkit-keyframes aitf {
+	0% { background-position: 0% 50%; }
+	100% { background-position: 100% 50%; }
+}
 	</style>
 
     <!--[if lt IE 9]>
@@ -673,10 +727,10 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									url: 'https://printmer.com.br/insertAgenda',
 									data: {dados},
 									success: function (data) {
-										//console.log(data)
+										finaliza();
 									},
 									error: function (data) {
-										//console.log(data)
+										 location.reload()
 									},
 									complete: function(){
 										// ao final da requisição...
@@ -702,7 +756,26 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 
 	}, 1000);
 
-	
+	function finaliza(){
+		html = '<div class="bodyFim"><p class="pFim" style="max-width: 100%; margin: 25% auto">  OBRIGADO PELO SEU AGENDAMENTO!  <span class="span">    NOS VEMOS EM BREVE!  </span>  &mdash; Mack Barbearia &mdash;</p></div>';
+	var mostra = 	bootbox.confirm({
+										message: html,
+										title: "TESTE!",
+										onShow:function(){
+											$(".modal-content").css("max-width","100%")
+											$(".modal-content").css("margin","auto")
+											$(".modal-content").html(html)
+											
+										},
+										callback: function (result) {
+											
+										}
+									});
+
+									setTimeout(() => {									
+									location.reload()
+									}, 5000);
+	}
     </script>
 
 </body>
