@@ -570,11 +570,19 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 				var data = $("#data").val()
 				var incremento = 30
 				var quando = moment(data + " 08:00:00")
+				console.log("cofnere ai ")
+				console.log(quando)
+				var quando2 = moment(data)
+				console.log("data selecionada")
+				console.log(data)
+				
 				for(let a = 0; a < 24; a++){
 					
-					console.log(data)
-					console.log(quando.format("HH:mm"))
+				
+					console.log(quando.format("HH:mm:00"))
 					quando.add(incremento, "minutes")
+					console.log("quando")
+					console.log(quando)
 					incremento += 30
 					console.log("livre -> "+getHorario(data, quando.add(incremento, "minutes").format("HH:mm:00")))
 					if(getHorario(data, quando.add(incremento, "minutes").format("HH:mm:00"))){
@@ -589,7 +597,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 				var hora =""
 				bootbox.confirm({
 					message: "<span id='informacao' style='margin: auto'><i style='color:green' class='fas fa-thumbs-up'></i> Livre | <i style='color:red' class='fas fa-thumbs-down'></i> Ocupado</span><hr><br><div class='col-md-12'><div class='row'>"+html+"</div>"+conteudo,
-					title: "Temos vaga no dia "+quando.format("DD/MM")+", escolha o seu horário!",
+					title: "Temos vaga no dia "+quando2.format("DD/MM")+", escolha o seu horário!",
 					onShow: function(){
 						$(".horaEscolhida").click(function(){
 							$(".horaEscolhida").css("filter","blur(5px)")
