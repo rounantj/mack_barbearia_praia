@@ -549,6 +549,8 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 					var hours = []
 					if(AGENDA.length > 0){
 						for(const k in AGENDA){
+							console.log(AGENDA[k].horario +" e "+ AGENDA[k].data  )
+							console.log(  horario +"&&"+ dia)
 								if(AGENDA[k].horario == horario && AGENDA[k].data == dia){
 									hours.push(AGENDA[k])
 								}
