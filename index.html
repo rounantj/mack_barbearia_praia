@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 
     <!-- Basic -->
     <meta charset="utf-8">
@@ -9,10 +10,10 @@
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
  
      <!-- Site Metas -->
-    <title>StyleBarber - Bootstrap 4 Responsive HTML5 Template</title>  
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta name="author" content="">
+	 <title>Mack Barbearia</title>  
+    <meta name="keywords" content="barbearia, mack, jacupemba, praia, Barra do Sahy">
+    <meta name="description" content="Barbearia em Barra do Sahy e Jacupemba">
+    <meta name="author" content="Ronan Rodrigues">
 
     <!-- Site Icons -->
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
@@ -209,9 +210,9 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 				</button>
 				<div class="collapse navbar-collapse" id="navbars-rs-food">
 					<ul class="navbar-nav ml-auto">
-						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Início</a></li>
+						<li  class="nav-item"><a class="nav-link" href="index.html">Agendamento</a></li>
 						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Serviços</a></li>					
-						<li class="nav-item"><a class="nav-link" href="index.html">Agendamento</a></li>
+						<li class="nav-item"><a class="nav-link" href="agenda.html">Agenda</a></li>
 						<li style="display: none;" class="nav-item"><a class="nav-link" href="index.html">Contato</a></li>
 					</ul>
 				</div>
@@ -285,7 +286,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									
 										<div style="max-width: 45%;     margin: auto;" class="input-group">
 											
-											<input style="    border: 2px solid red;border-radius: 20px;" type="date" class="form-control" id="data">
+											<input style="min-width: 180px;    border: 2px solid red;border-radius: 20px;" type="date" class="form-control" id="data">
 										</div>
 										
 										<div style="max-width: 45%;" class="form-btn text-center">
@@ -425,10 +426,10 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 				<div class="footer-distributed">
 					<div class="footer-left">
 						<p class="footer-links">
-							<a href="#">Início</a>
-							<a href="#">Serviços</a>
-							<a href="#">Agendamento</a>
-							<a href="#">Contato</a>
+							<a href="/index.html">Agendamento</a>
+							<a href="/agenda.html">Agenda</a>
+							<a href="/admin.html">admin</a>
+						
 							
 						</p>
 						<p class="footer-company-name">Todos os direitos reservados. &copy; 2021 <a href="https://ma.me/5527998792657">Site Oficial  - Mack Barbearia</a> Desenvolvido por: <a href="https://ma.me/5527996011204">Ronan Rodrigues +55 27 996011204</a></p>
@@ -441,7 +442,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 
     <a href="#" id="scroll-to-top" class="dmtop global-radius"><i class="fa fa-angle-up"></i></a>
 
-    <!-- ALL JS FILES -->
+    <!-- ALL JS FILES-->
     <script src="js/all.js"></script>
 	<script src="js/responsive-tabs.js"></script>
     <!-- ALL PLUGINS -->
@@ -453,16 +454,17 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
     <script>
 		
 			var AGENDA = [];
+			$("#data").val(moment().format("YYYY-MM-DD"));
 			$.ajax({
 				type: 'GET',
 				url: 'https://printmer.com.br/agenda',
 				data: "",
 				success: function (data) {
 					AGENDA = data
-					console.log(AGENDA)
+					//console.log(AGENDA)
 				},
 				error: function (data) {
-					console.log(data)
+					//console.log(data)
 				},
 				complete: function(){
 					// ao final da requisição...
@@ -506,7 +508,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 		for (let index = 1; index < 14; index++) {
 			var now = moment();
 			var day = now.add(index, "days")
-			console.log(index+" index "+day.day() +" -> "+day.format("YYYY-MM-DD"))
+			//console.log(index+" index "+day.day() +" -> "+day.format("YYYY-MM-DD"))
 			if(day.day() != 0){
 				var HTML  = '<button style="cursor: pointer; margin-left: 2%;line-height: 1.0; margin-top: 2%; border-radius: 20px" class="btn-sm btn-danger" data="'+day.format("YYYY-MM-DD")+'">'+getDay(day.day())+'<br>'+day.format("DD/MM")+'</button>';
 				$("#sugestoes").append(HTML)
@@ -522,7 +524,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 		})
 
 		$("#data").change(function(){
-			$("#data").val($(this).attr("data"));
+			//$("#data").val($(this).attr("data"));
 			$("#pesquisar").css("font-size","0.6rem")
 			$("#pesquisar").css("padding","2%")
 			$("#pesquisar").addClass("pulse")
@@ -547,51 +549,62 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 
 				function getHorario(dia,horario){
 					var hours = []
-					if(AGENDA.length > 0){
-						for(const k in AGENDA){
-							console.log(AGENDA[k].horario +" e "+ moment(AGENDA[k].data).format("YYYY-MM-DD")  )
-							console.log(  horario +"&&"+ dia)
-								if(AGENDA[k].horario == horario && moment(AGENDA[k].data).format("YYYY-MM-DD") == dia){
-									hours.push(AGENDA[k])
-								}
-						}
-						console.log(hours)
-							if(hours.length <= 1){
-								return true;
-							}else{
-								return false;
-							}
+					var dayWeek2 = moment(dia).day()
+					console.log(dayWeek2 + "as day and horario is "+horario)
+					if(
+						(horario == "11:00:00" || horario == "11:30:00")
+						|| ( dayWeek2 ==  6 || dayWeek2 ==  3 && (horario == "18:00:00" || horario == "18:30:00" || horario == "19:30:00" || horario == "19:00:00")) 
+						){
+						return false
 					}else{
-						return true
+						if(AGENDA.length > 0){
+								for(const k in AGENDA){
+									
+										if(AGENDA[k].horario == horario && AGENDA[k].data2 == dia){
+											hours.push(AGENDA[k])
+										}
+								}
+								//console.log(hours)
+									if(hours.length <= 1){
+										return true;
+									}else{
+										return false;
+									}
+							}else{
+								return true
+							}
 					}
+							
 					
 				}
 				
 				var data = $("#data").val()
 				var incremento = 30
 				var quando = moment(data + " 08:00:00")
-				console.log("cofnere ai ")
-				console.log(quando)
+				//console.log("cofnere ai ")
+				//console.log(quando)
 				var quando2 = moment(data)
-				console.log("data selecionada")
-				console.log(data)
+				//console.log("data selecionada")
+				//console.log(data)
 				
 				for(let a = 0; a < 24; a++){
 					
 				
-					console.log(quando.format("HH:mm:00"))
-					quando.add(incremento, "minutes")
-					console.log("quando")
-					console.log(quando)
-					incremento += 30
-					console.log("livre -> "+getHorario(data, quando.add(incremento, "minutes").format("HH:mm:00")))
-					if(getHorario(data, quando.add(incremento, "minutes").format("HH:mm:00"))){
+					//console.log(quando.format("HH:mm:00"))
+
+					
+					 console.log("quando")
+					 console.log(quando.format("HH:mm:00"))
+				
+					//console.log("livre -> "+getHorario(data, quando.add(incremento, "minutes").format("HH:mm:00")))
+					if(getHorario(data, quando.format("HH:mm:00"))){
 						html += '<ol class="breadcrumb horaEscolhida" style="margin: 1%; max-width: 45%; padding:2%;cursor:pointer"> <li style="color: green"> <i class="fas fa-thumbs-up"></i> <a > '+quando.format("HH:mm")+'</a></ol>'
 						//html+= '<button style="margin: 1%; min-width: 21%" class="btn-sm btn-success horarius">'+quando.format("HH:mm")+'</button>';
 					}else{
 						html += '<ol class="breadcrumb bg-dark horaEscolhida horaInvalida" style="margin: 1%; max-width: 45%; padding:2%;cursor:pointer"> <li  style="color: red"> <i class="fas fa-thumbs-down"></i> <a >'+quando.format("HH:mm")+'</a></ol>'
 						//html+= '<button class="btn-sm btn-dark horarius">'+quando.format("HH:mm")+'</button>';
 					}
+					quando = quando.add(incremento, "minutes")
 				}
 				var conteudo = '<div id="conteudo" style="display: none" class="col-md-12"> <h4><i style="color: green; font-size: 2rem" class="fas fa-laugh-wink"></i> Ótima escolha!</h4><h5>Informe agora seu NOME e TELEFONE:</h5><label>Nome:</label><input class="form-control" placeholder="Nome..." id="nome" type="text"><hr><label>Telefone: </label><input class="form-control telefone" placeholder="(27) 999999999" id="telefone"  type="numtextber"> </div>'
 				var hora =""
@@ -643,6 +656,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 						if(result){
 							if($("#nome").val() == ""){$("#nome").css("border","2px solid red")}else{$("#nome").css("border","2px solid green")}
 							if($("#telefone").val() == ""){$("#telefone").css("border","2px solid red")}else{$("#telefone").css("border","2px solid green")}
+							
 							if($("#nome").val() != "" && $("#telefone").val() != ""){
 								var dados = [{
 									"nome":$("#nome").val(),
@@ -653,16 +667,16 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									"horario":hora
 								}]
 
-								console.log(dados)
+								//console.log(dados)
 								$.ajax({
 									type: 'POST',
 									url: 'https://printmer.com.br/insertAgenda',
 									data: {dados},
 									success: function (data) {
-										console.log(data)
+										//console.log(data)
 									},
 									error: function (data) {
-										console.log(data)
+										//console.log(data)
 									},
 									complete: function(){
 										// ao final da requisição...

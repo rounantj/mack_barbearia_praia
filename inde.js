@@ -318,20 +318,20 @@ app.post('/feedback', async function(req, res){
 });
 
 app.get('/agenda', async function(req, res){ 
-    SQL_JSON("select * from agendaMack", res)
+    SQL_JSON("select * from agenda", res)
 });
 
 app.post('/insertAgenda', async function(req, res){ 
     var dados = req.body.dados
     var sqlString = ""
     if(dados.length == 1){
-       sqlString = "insert into agenda values (null, '"+dados[0].filial+"',  '"+dados[0].nome+"', '"+dados[0].servico+"', '"+dados[0].data+"','"+dados[0].horario+"',   now(),now())";
+       sqlString = "insert into agenda values (null, '"+dados[0].filial+"',  '"+dados[0].nome+"',  '"+dados[0].telefone+"', '"+dados[0].servico+"', '"+dados[0].data+"','"+dados[0].horario+"',   now(),now())";
     }else if(dados.length == 0){
         res.status(500).statusMessage("dados não enviados...")
     }else{
         sqlString = "insert into agenda values "
         for(const k in dados){
-            sqlString += "(null, '"+dados[k].filial+"',  '"+dados[k].nome+"', '"+dados[k].servico+"', '"+dados[k].data+"','"+dados[k].horario+"',   now(),now()),"
+            sqlString += "(null, '"+dados[k].filial+"',  '"+dados[k].nome+"',  '"+dados[k].telefone+"','"+dados[k].servico+"', '"+dados[k].data+"','"+dados[k].horario+"',   now(),now()),"
         }
         sqlString += ";"
         sqlString = sqlString.replace(",;",";")
@@ -342,7 +342,14 @@ app.post('/insertAgenda', async function(req, res){
 app.post('/updateAgenda', async function(req, res){ 
     var dados = req.body.dados
     var sqlString = ""
-    sqlString = "update agenda set filial = '"+dados[0].filial+"',  nome = '"+dados[0].nome+"', servico = '"+dados[0].servico+"', data = '"+dados[0].data+"', horario = '"+dados[0].horario+"',  updatedAt = now() where id = "+dados[0].id;
+    sqlString = "update agenda set filial = '"+dados[0].filial+"',  nome = '"+dados[0].nome+"',  telefone = '"+dados[0].telefone+"', servico = '"+dados[0].servico+"', data = '"+dados[0].data+"', horario = '"+dados[0].horario+"',  updatedAt = now() where id = "+dados[0].id;
+    SQL_JSON(sqlString, res)
+});
+
+app.post('/deleteAgenda', async function(req, res){ 
+    var dados = req.body.dados
+    var sqlString = ""
+    sqlString = "delete from agenda where id = "+dados[0].id;
     SQL_JSON(sqlString, res)
 });
 
