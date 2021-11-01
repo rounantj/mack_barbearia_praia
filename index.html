@@ -453,6 +453,21 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
     <script>
 		
 			var AGENDA = [];
+			$.ajax({
+				type: 'GET',
+				url: 'https://printmer.com.br/agenda',
+				data: "",
+				success: function (data) {
+					AGENDA = data
+					console.log(AGENDA)
+				},
+				error: function (data) {
+					console.log(data)
+				},
+				complete: function(){
+					// ao final da requisição...
+				}
+			});
     (function($) {
         "use strict";
         $("#menu-toggle").click(function(e) {
@@ -519,20 +534,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 			$("#body").addClass("body")
 			$("#appointment").css("filter", "blur(10px)")
 		
-			$.ajax({
-				type: 'GET',
-				url: 'https://printmer.com.br/agenda',
-				data: "",
-				success: function (data) {
-					AGENDA = data
-				},
-				error: function (data) {
-					console.log(data)
-				},
-				complete: function(){
-					// ao final da requisição...
-				}
-			});
+			
 
 
 
