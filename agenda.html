@@ -584,11 +584,11 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 								if($(this).find(".horario").text()+":00" == horario){
 									$(this).find(".op1").text("Fechado")
 									$(this).find(".op2").text("Fechado")
-									$(this).addBack("ocupado")								
+									$(this).addClass("ocupado")								
 								}else{
 									$(this).find(".op1").text("Disponível")
 									$(this).find(".op2").text("Disponível")
-									$(this).addBack("disponivel")	
+									$(this).addClass("disponivel")	
 								}
 							})
 							return false
