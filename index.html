@@ -782,7 +782,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 	}, 1000);
 
 	function finaliza(){
-		html = '<div class="bodyFim"><p class="pFim" style="max-width: 100%; margin: 25% auto">  OBRIGADO PELO SEU AGENDAMENTO!  <img src="https://cdn.dribbble.com/users/1841951/screenshots/6905569/render.gif" style="max-widht: 300px%; margin: auto">  &mdash; Mack Barbearia &mdash;</p></div>';
+		html = '<div class="bodyFim"><p class="pFim" style="max-width: 100%; margin: 25% auto">  OBRIGADO PELO SEU AGENDAMENTO!  <img src="https://cdn.dribbble.com/users/1841951/screenshots/6905569/render.gif" style="    max-width: 100% !important; margin: auto">  &mdash; Mack Barbearia &mdash;</p></div>';
 	var mostra = 	bootbox.confirm({
 										message: html,
 										title: "TESTE!",
@@ -798,7 +798,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									});
 
 									setTimeout(() => {									
-									location.reload()
+									//location.reload()
 									}, 5000);
 	}
     </script>
