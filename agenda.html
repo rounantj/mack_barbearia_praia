@@ -156,6 +156,16 @@
 .norm {
   filter: blur(1px);
 }
+.disponivel{
+	background-color: white !important;
+	color: green !important;
+	font-weight: bold !important;
+}
+.ocupado{
+	background-color: red !important;
+	color: white !important;
+	font-weight: bold !important;
+}
 
 .modal-lg, .modal-content{
 	max-width: 98%;
@@ -567,16 +577,18 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 						if(
 							(horario == "11:00:00" || horario == "11:30:00")
 							|| ( dayWeek2 ==  6 || dayWeek2 ==  3 && (horario == "18:00:00" || horario == "18:30:00" || horario == "19:30:00" || horario == "19:00:00")) 
-							){
-							$(".line").each(function(){
+							){ 
+								
+							$(".line").each(function(){							
+
 								if($(this).find(".horario").text()+":00" == horario){
 									$(this).find(".op1").text("Fechado")
 									$(this).find(".op2").text("Fechado")
-									$(this).addClass("bg-dark text-warning")
-
-									$(this).css("color","yellow")													
-									$(this).css("font-weight","bold")										
-									$(this).css("background","#343a40") 
+									$(this).addBack("ocupado")								
+								}else{
+									$(this).find(".op1").text("Disponível")
+									$(this).find(".op2").text("Disponível")
+									$(this).addBack("disponivel")	
 								}
 							})
 							return false
@@ -590,27 +602,25 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 									 console.log(hours)
 										if(hours.length == 1){
 											//console.log(hours)
+											
 											$(".line").each(function(){
 												if($(this).find(".horario").text()+":00" == horario){
 													$(this).find(".op1").text(hours[0].nome)													
-													$(this).find(".op1").css("color","white")													
-													$(this).find(".op1").css("font-weight","bold")										
-													$(this).find(".op1").addClass("bg-danger ") 									
+													$(this).find(".op1").addClass("ocupado")													
+
 												}
 											})
 											return true;
 										}else if(hours.length == 0){ return true; }else {
 											//console.log(hours)
+										
 											$(".line").each(function(){
 												if($(this).find(".horario").text()+":00" == horario){
 													$(this).find(".op1").text(hours[0].nome)
 													$(this).find(".op2").text(hours[1].nome)
-													$(this).find(".op1").css("color","white")													
-													$(this).find(".op1").css("font-weight","bold")	
-													$(this).find(".op2").css("color","white")													
-													$(this).find(".op2").css("font-weight","bold")	
-													$(this).addClass("bg-danger text-warning")
-													$(this).css("color","white !important")
+													$(this).find(".op1").addClass("ocupado")
+													$(this).find(".op2").addClass("ocupado")
+													
 												}
 											})
 											return false;
@@ -624,6 +634,8 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 					}
 				
 					$("#data").change(function(){
+						$(".line").removeClass("ocupado")
+						$(".line").removeClass("disponivel")
 						if(moment($("#data").val()).day() == 0){
 				                    bootbox.confirm({
 										message: "<i style='color: red; font-size: 2rem' class='fas fa-bell'></i> Desculpe, não trabalhamos aos domingos!",
@@ -633,31 +645,29 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 										}
 									});
 			            }else{
+							$(".line").removeClass("ocupado")
+						    $(".line").removeClass("disponivel")
 							load()
-							$(".line").removeClass("bg-dark text-warning")
+						
 							$(".line").each(function(){
 								var horario = $(this).find(".horario").text()+":00"
 								var dia = $("#data").val()
 								if(!getHorario(dia, horario)){
-									$(this).addClass("bg-dark text-warning")
-									$(this).css("color","yellow")													
-										$(this).css("font-weight","bold")										
-										$(this).css("background","#343a40") 
+									$(this).addClass("ocupado")	
 								}
 							})
 
 						}
 						
 					})
+					$(".line").removeClass("ocupado")
+					$(".line").removeClass("disponivel")
 					$(".line").each(function(){
-						$(".line").removeClass("bg-dark text-warning")
+						 
 						var horario = $(this).find(".horario").text()+":00"
 						var dia = $("#data").val()
 						if(!getHorario(dia, horario)){							
-							$(this).addClass("bg-dark text-warning")
-							$(this).css("color","yellow")													
-									$(this).css("font-weight","bold")										
-									$(this).css("background","#343a40") 
+							$(this).addClass("ocupado")						 
 						}
 					})
 
