@@ -675,7 +675,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 					}
 					quando = quando.add(incremento, "minutes")
 				}
-				var conteudo = '<div id="conteudo" style="display: none" class="col-md-12"> <h4><i style="color: green; font-size: 2rem" class="fas fa-laugh-wink"></i> Ótima escolha!</h4><h5>Informe agora seu NOME e TELEFONE:<br><p>* Se preferir, pode incluir um e-mail para que te enviemos um lembrete!</p><br></h5><label>Nome:</label><input class="form-control" placeholder="Nome..." id="nome" type="text"><hr><label>Telefone: </label><input class="form-control telefone" placeholder="(27) 999999999" id="telefone"  type="numtextber"><label>E-mail (opcional): </label><input class="form-control email" placeholder="nome@email.com" id="email"  type="mail"> </div>'
+				var conteudo = '<div id="conteudo" style="display: none" class="col-md-12"> <h4><i style="color: green; font-size: 2rem" class="fas fa-laugh-wink"></i> Ótima escolha!</h4><h5>Informe agora seu NOME e TELEFONE:<br><p>* Se preferir, pode incluir um e-mail para que te enviemos um lembrete!</p><br></h5><label>Nome:</label><input class="form-control" placeholder="Nome..." id="nome" type="text"><hr><label>Telefone: </label><input class="form-control telefone" placeholder="(27) 999999999" id="telefone"  type="numtextber"><hr><label>E-mail (opcional): </label><input class="form-control email" placeholder="nome@email.com" id="email"  type="mail"> </div>'
 				var hora =""
 				bootbox.confirm({
 					message: "<span id='informacao' style='margin: auto'><i style='color:green' class='fas fa-thumbs-up'></i> Livre | <i style='color:red' class='fas fa-thumbs-down'></i> Ocupado</span><hr><br><div class='col-md-12'><div class='row'>"+html+"</div>"+conteudo,
