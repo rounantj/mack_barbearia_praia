@@ -576,7 +576,7 @@ p, span, h1, h2, h3, h4, h5, h6,a, input, select, option{
 						//console.log(dayWeek2 + "as day and horario is "+horario)
 						if(
 							(horario == "11:00:00" || horario == "11:30:00")
-							|| ( dayWeek2 ==  6 || dayWeek2 ==  3 && (horario == "18:00:00" || horario == "18:30:00" || horario == "19:30:00" || horario == "19:00:00")) 
+							|| ( dayWeek2 ==  0 || dayWeek2 ==  3 && (horario == "18:00:00" || horario == "18:30:00" || horario == "19:30:00" || horario == "19:00:00") || dayWeek2 ==  6 && (horario == "18:00:00" || horario == "18:30:00" || horario == "19:30:00" || horario == "19:00:00")) 
 							){ 
 								
 							$(".line").each(function(){							
